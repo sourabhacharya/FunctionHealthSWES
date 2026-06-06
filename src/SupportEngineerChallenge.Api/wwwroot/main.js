@@ -32,6 +32,7 @@ function escapeHtml(str) {
 }
 
 async function refresh() {
+
   setError("");
   const userId = userSelect.value;
 
@@ -43,8 +44,13 @@ async function refresh() {
 
   const items = await res.json();
 
-  state.tasks = state.tasks.concat(items)
-    .sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+  // ###SA_fix3: Duplicate fix + Ordering fix
+  // state.tasks = state.tasks.concat(items).sort((a, b) => String(a.createdAt).localeCompare(String(b.createdAt)));
+
+  // START **********************
+  state.tasks = items.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+  // END ************************
 
   render();
 }
