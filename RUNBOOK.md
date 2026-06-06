@@ -56,7 +56,7 @@ dotnet test
 - Temporarily disable problematic client behavior (feature flag / UI change).
 Allow only authorized admin users to access the web application by using SSO login features.
 - Add guardrails (e.g. input validation, error handling) to prevent unhandled exceptions.
-Input validation:
-- Check for special characters or bad data and clean up the data entry.
-- To check proper data entry, set a maximum limit on the number of tasks a user can add to the table in a day or an hour.
+- Input validation:
+  1. Check the total length of field, any invalid special characters and/or bad data and accordingly clean up the data entry before insertion.
+  2. To check proper data entry, set a maximum limit on the number of tasks a user can add to the table in a day or an hour.
 
