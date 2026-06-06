@@ -8,10 +8,15 @@ Environment: Prod
 
 ## Description
 Issue#1: Server - HTTP Error 500 (Internal Server Error)
+Some users intermittently reported Error 500 while creating a task using the Task Tracker web application.
 
-Issue#2: Performance - Slow List
 
-Issue#3: Application - Refresh/Add button click is generating duplicates
+Issue#2: Performance - Task List loads very slowly when there are more than 200 records.
+Some users reported slow loading of their webpage, that took more than 5 seconds to load 200+ records, while creating a task using the Task Tracker web application.
+
+
+Issue#3: Application - Refresh/Add button click is generating duplicates.
+All users reported issue of duplicate records while creating a task using the Task Tracker web application.
 
 
 ## Acceptance criteria
