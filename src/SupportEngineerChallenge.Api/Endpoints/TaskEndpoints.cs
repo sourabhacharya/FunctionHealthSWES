@@ -11,24 +11,48 @@ public static class TaskEndpoints
     {
         var group = app.MapGroup("/api/tasks");
 
+        // ###SA_fix2: slow list
+        // group.MapGet("", async (string userId, int? limit, AppDbContext db, ILogger<Program> logger) =>
+        // {
+        //     var sw = Stopwatch.StartNew();
+        //     var all = await db.Tasks.AsNoTracking().ToListAsync();
+        //     var filtered = all
+        //         .Where(t => t.UserId == userId)
+        //         .OrderByDescending(t => t.CreatedAt)
+        //         .Take(Math.Clamp(limit ?? 50, 1, 200))
+        //         .ToList();
+        //     sw.Stop();
+        //     logger.LogInformation(
+        //         "ListTasks completed userId={UserId} limit={Limit} count={Count} elapsedMs={ElapsedMs}",
+        //         userId, limit ?? 50, filtered.Count, sw.ElapsedMilliseconds);
+
+        //     return Results.Ok(filtered);
+        // });
+
+        // START *****************************************************************
+
         group.MapGet("", async (string userId, int? limit, AppDbContext db, ILogger<Program> logger) =>
         {
             var sw = Stopwatch.StartNew();
-            var all = await db.Tasks.AsNoTracking().ToListAsync();
-
-            var filtered = all
+            var limitValue = Math.Clamp(limit ?? 50, 1, 200);
+            var filtered = await db.Tasks
+                .AsNoTracking()
                 .Where(t => t.UserId == userId)
                 .OrderByDescending(t => t.CreatedAt)
-                .Take(Math.Clamp(limit ?? 50, 1, 200))
-                .ToList();
+                .ThenByDescending(t => t.Id)
+                .Take(limitValue)
+                .ToListAsync();
 
             sw.Stop();
+
             logger.LogInformation(
                 "ListTasks completed userId={UserId} limit={Limit} count={Count} elapsedMs={ElapsedMs}",
-                userId, limit ?? 50, filtered.Count, sw.ElapsedMilliseconds);
+                userId, limitValue, filtered.Count, sw.ElapsedMilliseconds);
 
             return Results.Ok(filtered);
         });
+
+        // END ***********************************************************
 
         group.MapPost("", async (HttpContext ctx, CreateTaskRequest req, AppDbContext db, ILogger<Program> logger) =>
         {
