@@ -1,4 +1,4 @@
-# Incident Summary (Fill in)
+# Incident Summary:
 
 **Title:**  Multiple issues reported by users while using Task Tracker application 
 **Date:**  2026-06-04
