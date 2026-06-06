@@ -42,7 +42,7 @@ dotnet test
 - Review query patterns and database usage.
 
 ### “Duplicates / wrong order after refresh”
-- Compare API response vs UI rendering.
+- Compare Swagger API response vs UI rendering.
 - Check the UI state update logic during refresh.
 - Verify how the list is merged and ordered.
 
@@ -54,4 +54,9 @@ dotnet test
 ## Rollback / mitigation ideas (starter)
 - Roll back to last known good version.
 - Temporarily disable problematic client behavior (feature flag / UI change).
+Allow only authorized admin users to access the web application by using SSO login features.
 - Add guardrails (e.g. input validation, error handling) to prevent unhandled exceptions.
+Input validation:
+- Check for special characters or bad data and clean up the data entry.
+- To check proper data entry, set a maximum limit on the number of tasks a user can add to the table in a day or an hour.
+
